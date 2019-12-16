@@ -2,7 +2,7 @@
 
 /*
 Plugin Name: Verboten
-Version: 2.2
+Version: 2.4
 Description: A lightning fast firewall that automatically protects your Wordpress site against malicious URL requests. No configuration necessary. Uses blacklist rules based on <a href="https://perishablepress.com/6g/" target="_blank">6G Firewall</a>. Why this plugin name? Verboten means "forbidden" in German.
 Author: Ivan Lutrov
 Author URI: http://lutrov.com/
@@ -15,14 +15,14 @@ defined('ABSPATH') || die();
 //
 add_action('plugins_loaded', 'verboten', 10, 0);
 function verboten() {
-	$c = 0;
+	$status = 0;
 	if (empty($_SERVER['REQUEST_URI']) == false) {
 		$hostile = implode('|', apply_filters('verboten_request_uri_filter',
 			array('@eval', 'eval\(', 'UNION(.*)SELECT', '\(null\)', 'base64_', '\/localhost', '\%2Flocalhost', '\/pingserver', 'wp-config\.php', '\/config\.', '\/wwwroot', '\/makefile', 'crossdomain\.', 'proc\/self\/environ', 'usr\/bin\/perl', 'var\/lib\/php', 'etc\/passwd', '\/https\:', '\/http\:', '\/ftp\:', '\/file\:', '\/php\:', '\/cgi\/', '\.cgi', '\.cmd', '\.bat', '\.exe', '\.sql', '\.ini', '\.dll', '\.htacc', '\.htpas', '\.pass', '\.asp', '\.jsp', '\.bash', '\/\.git', '\/\.svn', ' ', '\<', '\>', '\/\=', '\.\.\.', '\+\+\+', '@@', '\/&&', '\/Nt\.', '\;Nt\.', '\=Nt\.', '\,Nt\.', '\.exec\(', '\)\.html\(', '\{x\.html\(', '\(function\(', '\.php\([0-9]+\)', '(benchmark|sleep)(\s|%20)*\(', 'indoxploi', 'xrumer')
 		));
 		if (empty($hostile) == false) {
 			if (preg_match(sprintf('#%s#i', $hostile), $_SERVER['REQUEST_URI']) == 1) {
-				$c++;
+				$status = $status + 1;
 			}
 		}
 	}
@@ -32,7 +32,7 @@ function verboten() {
 		));
 		if (empty($hostile) == false) {
 			if (preg_match(sprintf('#%s#i', $hostile), $_SERVER['QUERY_STRING']) == 1) {
-				$c++;
+				$status = $status + 2;
 			}
 		}
 	}
@@ -42,11 +42,11 @@ function verboten() {
 		));
 		if (empty($hostile) == false) {
 			if (preg_match(sprintf('#%s#i', $hostile), $_SERVER['HTTP_USER_AGENT']) == 1) {
-				$c++;
+				$status = $status + 4;
 			}
 		}
 	}
-	if ($c > 0) {
+	if ($status > 0) {
 		header('HTTP/1.1 403 Forbidden');
 		header('Status: 403 Forbidden');
 		header('Connection: Close');
@@ -54,6 +54,7 @@ function verboten() {
 			load_plugin_textdomain('verboten', false, basename(dirname(__FILE__)) . '/lang/');
 			include(dirname(__FILE__) . '/403.php');
 		}
+		do_action('verboten_debug_action', $status);
 		exit();
 	}	
 }
