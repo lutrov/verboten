@@ -17,7 +17,7 @@ add_action('plugins_loaded', 'verboten', 10, 0);
 function verboten() {
 	$status = 0;
 	if (empty($_SERVER['REQUEST_URI']) == false) {
-		$hostile = implode('|', apply_filters('verboten_request_uri', array(
+		$hostile = implode('|', apply_filters('verboten_request_uris', array(
 			'@eval',
 			'eval\(',
 			'UNION(.*)SELECT',
@@ -84,7 +84,7 @@ function verboten() {
 		}
 	}
 	if (empty($_SERVER['QUERY_STRING']) == false) {
-		$hostile = implode('|', apply_filters('verboten_query_string', array(
+		$hostile = implode('|', apply_filters('verboten_query_strings', array(
 			'@@',
 			'\(0x',
 			'0x3c62723e',
@@ -136,7 +136,7 @@ function verboten() {
 		}
 	}
 	if (empty($_SERVER['HTTP_USER_AGENT']) == false) {
-		$hostile = implode('|', apply_filters('verboten_user_agent', array(
+		$hostile = implode('|', apply_filters('verboten_user_agents', array(
 			'acapbot',
 			'\/bin\/bash',
 			'binlar',
@@ -179,7 +179,7 @@ function verboten() {
 			load_plugin_textdomain('verboten', false, basename(dirname(__FILE__)) . '/lang/');
 			include(dirname(__FILE__) . '/403.php');
 		}
-		do_action('verboten_debug_action', $status);
+		do_action('verboten_debug', $status);
 		exit();
 	}	
 }
