@@ -10,6 +10,26 @@ This project is licensed under the [GNU GPL](http://www.gnu.org/licenses/old-lic
 
 Verboten has no configuration or settings screen because configuration isn't necessary. It uses blacklist rules based on <a href="https://perishablepress.com/6g/" target="_blank">6G Firewall</a>. 
 
+This plugin provides an API to to customise the default values for hostile request uris, query strings and user agents. See these examples:
+
+	// ---- Change the Verboten plugin hostile request uris array.
+	add_filter('verboten_request_uris', 'custom_verboten_request_uris_filter');
+	function custom_verboten_request_uris_filter($array) {
+		return $array;
+	}
+
+	// ---- Change the Verboten plugin hostile query strings array.
+	add_filter('verboten_query_strings', 'custom_verboten_query_strings_filter');
+	function custom_verboten_query_strings_filter($array) {
+		return $array;
+	}
+
+	// ---- Change the Verboten plugin hostile user agents array.
+	add_filter('verboten_user_agents', 'custom_verboten_user_agents_filter');
+	function custom_verboten_user_agents_filter($array) {
+		return $array;
+	}
+
 ## Professional Support
 
 If you need professional plugin support from me, the plugin author, contact me via my website at http://lutrov.com
