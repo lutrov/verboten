@@ -17,7 +17,7 @@ add_action('plugins_loaded', 'verboten', 10, 0);
 function verboten() {
 	$status = 0;
 	if (empty($_SERVER['REQUEST_URI']) == false) {
-		$hostile = implode('|', apply_filters('verboten_request_uri_filter', array(
+		$hostile = implode('|', apply_filters('verboten_request_uri', array(
 			'@eval',
 			'eval\(',
 			'UNION(.*)SELECT',
@@ -84,7 +84,7 @@ function verboten() {
 		}
 	}
 	if (empty($_SERVER['QUERY_STRING']) == false) {
-		$hostile = implode('|', apply_filters('verboten_query_string_filter', array(
+		$hostile = implode('|', apply_filters('verboten_query_string', array(
 			'@@',
 			'\(0x',
 			'0x3c62723e',
@@ -136,7 +136,7 @@ function verboten() {
 		}
 	}
 	if (empty($_SERVER['HTTP_USER_AGENT']) == false) {
-		$hostile = implode('|', apply_filters('verboten_user_agent_filter', array(
+		$hostile = implode('|', apply_filters('verboten_user_agent', array(
 			'acapbot',
 			'\/bin\/bash',
 			'binlar',
