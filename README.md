@@ -8,7 +8,7 @@ This project is licensed under the [GNU GPL](http://www.gnu.org/licenses/old-lic
 
 ## Documentation
 
-Verboten has no configuration or settings screen because configuration isn't necessary. It uses blacklist rules based on <a href="https://perishablepress.com/6g/" target="_blank">6G Firewall</a>. 
+Verboten has no configuration or settings screen because configuration isn't necessary. It uses blacklist rules based on <a href="https://perishablepress.com/7g/" target="_blank">7G Firewall</a>. 
 
 This plugin provides an API to to customise the default values for hostile request uris, query strings and user agents. See these examples:
 
@@ -27,6 +27,12 @@ This plugin provides an API to to customise the default values for hostile reque
 	// ---- Change the Verboten plugin hostile user agents array.
 	add_filter('verboten_user_agents', 'custom_verboten_user_agents_filter');
 	function custom_verboten_user_agents_filter($array) {
+		return $array;
+	}
+
+	// ---- Change the Verboten plugin hostile referrers array.
+	add_filter('verboten_referrers', 'custom_verboten_referrers_filter');
+	function custom_verboten_referrers_filter($array) {
 		return $array;
 	}
 
