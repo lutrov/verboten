@@ -13,7 +13,7 @@ defined('ABSPATH') || die();
 //
 // Main action.
 //
-add_action('plugins_loaded', 'verboten', 10, 0);
+add_action('plugins_loaded', 'verboten', 1, 0);
 function verboten() {
 	$status = 0;
 	if (empty($_SERVER['REQUEST_URI']) == false) {
@@ -374,9 +374,9 @@ function verboten() {
 		header('HTTP/1.1 403 Forbidden');
 		header('Status: 403 Forbidden');
 		header('Connection: Close');
-		if (file_exists(dirname(__FILE__) . '/403.php') == true) {
-			load_plugin_textdomain('verboten', false, basename(dirname(__FILE__)) . '/lang/');
-			include(dirname(__FILE__) . '/403.php');
+		if (file_exists(__DIR__ . '/403.php') == true) {
+			load_plugin_textdomain('verboten', false, basename(__DIR__) . '/lang/');
+			include __DIR__ . '/403.php';
 		}
 		do_action('verboten_debug', $status);
 		exit();
