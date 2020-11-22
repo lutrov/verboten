@@ -6,14 +6,12 @@
 		<meta name="robots" content="noindex, nofollow">
 		<title>403 Forbidden</title>
 		<style type="text/css">
-			html, body, div {
+			body {
 				margin: 0;
 				padding: 0;
-			}
-			body {
 				background: yellow;
 			}
-			div {
+			main {
 				position: fixed;
 				width: 80%;
 				top: 50%;
@@ -21,10 +19,6 @@
 				transform: translate(-50%, -50%);
 				text-align: center;
 				color: black;
-			}
-			h1, p {
-				margin: 24px 0;
-				padding: 0;
 			}
 			h1 {
 				font: normal bold 72px/1.1 monospace;
@@ -38,10 +32,10 @@
 		</style>
 	</head>
 	<body>
-		<div>
+		<main>
 			<h1><?php echo __('Forbidden', 'verboten'); ?></h1>
 			<p><?php echo __('Your request looks suspicious and has been denied by a security policy configured by the website administrator.', 'verboten'); ?></p>
 			<p><code><?php echo sprintf('%s://%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']); ?></code></p>
-		</div>
+		</main>
 	</body>
 </html>
