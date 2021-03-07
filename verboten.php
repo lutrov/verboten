@@ -2,10 +2,26 @@
 
 /*
 Plugin Name: Verboten
+Plugin URI: https://github.com/lutrov/verboten
 Version: 3.0
 Description: A lightning fast firewall that automatically protects your Wordpress site against malicious URL requests. No configuration necessary. Uses blacklist rules based on <a href="https://perishablepress.com/7g/" target="_blank">7G Firewall</a>. Why this plugin name? Verboten means "forbidden" in German.
 Author: Ivan Lutrov
 Author URI: http://lutrov.com/
+Copyright: 2019, Ivan Lutrov
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 2 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
+Street, Fifth Floor, Boston, MA 02110-1301, USA. Also add information on how to
+contact you by electronic and paper mail.
 */
 
 defined('ABSPATH') || die();
