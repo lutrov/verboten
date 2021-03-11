@@ -15,12 +15,18 @@ This plugin provides an API to to customise the default values for hostile reque
 	// ---- Change the Verboten plugin hostile request uris array.
 	add_filter('verboten_request_uris', 'custom_verboten_request_uris_filter');
 	function custom_verboten_request_uris_filter($array) {
+		if (empty($_REQUEST['wc-api']) == false) {
+			return array(); // Don't trigger error for Woocommerce API transactions
+		}
 		return $array;
 	}
 
 	// ---- Change the Verboten plugin hostile query strings array.
 	add_filter('verboten_query_strings', 'custom_verboten_query_strings_filter');
 	function custom_verboten_query_strings_filter($array) {
+		if (empty($_REQUEST['wc-api']) == false) {
+			return array(); // Don't trigger error for Woocommerce API transactions
+		}
 		return $array;
 	}
 
@@ -34,6 +40,33 @@ This plugin provides an API to to customise the default values for hostile reque
 	add_filter('verboten_referrers', 'custom_verboten_referrers_filter');
 	function custom_verboten_referrers_filter($array) {
 		return $array;
+	}
+
+You could also implement an access denial logging mechanism. See these examples:
+
+	// ---- Log debug info for Verboten access errors.
+	// ---- Status can be (1) REQUEST_URI (2) QUERY_STRING (4) HTTP_USER_AGENT (8) HTTP_REFERER
+	add_action('verboten_debug', 'custom_verboten_debug_action');
+	function custom_verboten_debug_action($status) {
+		$verboten = array('status' => $status, 'data' => array());
+		foreach (array('REQUEST_URI', 'QUERY_STRING', 'HTTP_USER_AGENT', 'HTTP_FROM', 'REMOTE_ADDR') as $key) {
+			if (isset($_SERVER[$key]) == true) {
+				$verboten['data'][$key] = $_SERVER[$key];
+			}
+		}
+		custom_verboten_logfile(json_encode($verboten), 'verboten');
+	}
+
+	// ---- Verboten debug logging.
+	function custom_verboten_logfile($data, $label = 'var') {
+		$path = sprintf('%s/verboten-%s.log', WP_CONTENT_DIR, hash('adler32', sprintf('%s|%s|%s', AUTH_KEY, AUTH_COOKIE, AUTH_SALT)));
+		if ($fp = fopen($path, 'a')) {
+			if (is_array($data) || is_object($data)) {
+				$data = print_r($data, true);
+			}
+			fwrite($fp, sprintf("[%s] %s: %s\n", date_i18n('Y-m-d H:i:s', time() + (get_option('gmt_offset') * HOUR_IN_SECONDS)), $label, $data));
+			fclose($fp);
+		}
 	}
 
 ## Professional Support
