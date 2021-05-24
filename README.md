@@ -42,14 +42,27 @@ This plugin provides an API to to customise the default values for hostile reque
 		return $array;
 	}
 
+	// ---- Change the Verboten plugin hostile remote hosts array.
+	add_filter('verboten_remote_hosts', 'custom_verboten_remote_hosts_filter');
+	function custom_verboten_remote_hosts_filter($array) {
+		return $array;
+	}
+
+	// ---- Change the Verboten plugin hostile request methods array.
+	add_filter('verboten_request_methods', 'custom_verboten_request_methods_filter');
+	function custom_verboten_request_methods_filter($array) {
+		return $array;
+	}
+
+
 You could also implement an access denial logging mechanism. See these examples:
 
 	// ---- Log debug info for Verboten access errors.
-	// ---- Status can be (1) REQUEST_URI (2) QUERY_STRING (4) HTTP_USER_AGENT (8) HTTP_REFERER
+	// ---- Status can be (1) QUERY_STRING (2) REQUEST_URI (4) HTTP_USER_AGENT (8) HTTP_REFERER (16) REMOTE_HOST (32) REQUEST_METHOD
 	add_action('verboten_debug', 'custom_verboten_debug_action');
 	function custom_verboten_debug_action($status) {
 		$verboten = array('status' => $status, 'data' => array());
-		foreach (array('REQUEST_URI', 'QUERY_STRING', 'HTTP_USER_AGENT', 'HTTP_FROM', 'REMOTE_ADDR') as $key) {
+		foreach (array('QUERY_STRING', 'REQUEST_URI', 'HTTP_USER_AGENT', 'HTTP_REFERER', 'REMOTE_ADDR', 'REMOTE_HOST', 'REQUEST_METHOD') as $key) {
 			if (isset($_SERVER[$key]) == true) {
 				$verboten['data'][$key] = $_SERVER[$key];
 			}
