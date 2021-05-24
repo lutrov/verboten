@@ -8,7 +8,7 @@ This project is licensed under the [GNU GPL](http://www.gnu.org/licenses/old-lic
 
 ## Documentation
 
-Verboten has no configuration or settings screen because configuration isn't necessary. It uses blacklist rules based on <a href="https://perishablepress.com/7g/" target="_blank">7G Firewall</a>. 
+Verboten has no configuration or settings screen because configuration isn't necessary. It uses blacklist rules based on <a href="https://perishablepress.com/7g-firewall/" target="_blank">7G Firewall</a>. 
 
 This plugin provides an API to to customise the default values for hostile request uris, query strings, user agents and referrers. See these examples:
 
