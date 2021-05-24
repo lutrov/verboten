@@ -21,13 +21,11 @@
 				color: black;
 			}
 			h1 {
-				font: normal bold 72px/1.1 monospace;
+				font: normal bold 80px/1.1 monospace;
 			}
 			p {
-				font: normal bold 24px/1.1 monospace;
-			}
-			code {
-				font: italic bold 24px/1.1 monospace;
+				font: normal bold 20px/1.1 monospace;
+				word-break: break-word;
 			}
 		</style>
 	</head>
@@ -35,7 +33,8 @@
 		<main>
 			<h1><?php echo __('Forbidden', 'verboten'); ?></h1>
 			<p><?php echo __('Your request looks suspicious and has been denied by a security policy configured by the website administrator.', 'verboten'); ?></p>
-			<p><code><?php echo sprintf('%s://%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']); ?></code></p>
+			<p><?php echo sprintf('%s://%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']); ?></p>
+			<p><?php echo sprintf('%s', $_SERVER['REMOTE_ADDR']); ?><br><?php echo sprintf('%s', date_i18n('YmdHis', time() + (get_option('gmt_offset') * HOUR_IN_SECONDS))); ?><br><?php echo $status; ?></p>
 		</main>
 	</body>
 </html>
