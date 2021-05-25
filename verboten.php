@@ -81,7 +81,7 @@ function verboten() {
 	if (empty($_SERVER['REQUEST_URI']) == false) {
 		$hostile = implode('|', apply_filters('verboten_request_uris', array(
 			'([a-z0-9]{2000,})',
-			'(=?\\(\'|%27)/?)(\.)',
+			'(=?\\(\'|%27\)/?)(\.)',
 			'(\^|`|<|>|%|\\|\{|\}|\|)',
 			'(/)(\*|\"|\'|\.|,|&|&amp;?)/?$',
 			'(\.)(php)(\()?([0-9]+)(\))?(/)?$',
