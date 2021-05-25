@@ -4,7 +4,7 @@
 Plugin Name: Verboten
 Plugin URI: https://github.com/lutrov/verboten
 Version: 4.0
-Description: A lightning fast firewall that automatically protects your Wordpress site against malicious URL requests. No configuration necessary. Uses blacklist rules based on <a href="https://perishablepress.com/7g-firewall" target="_blank">7G Firewall</a>. Why this plugin name? Verboten means "forbidden" in German.
+Description: A lightning fast firewall that automatically protects your Wordpress site against malicious URL requests. No configuration necessary. Uses blacklist rules based on <a href="https://perishablepress.com/7g-firewall/" target="_blank">7G Firewall</a> by Jeff Starr. Why this plugin name? Verboten means "forbidden" in German.
 Author: Ivan Lutrov
 Author URI: http://lutrov.com/
 Copyright: 2019, Ivan Lutrov
@@ -138,23 +138,13 @@ function verboten() {
 			}
 		}
 	}
-	if (empty($_SERVER['REMOTE_HOST']) == false) {
-		$hostile = implode('|', apply_filters('verboten_remote_hosts', array(
-			'(163data|amazonaws|colocrossing|crimea|g00g1e|justhost|kanagawa|loopia|masterhost|onlinehome|poneytel|sprintdatacenter|reverse.softlayer|safenet|ttnet|woodpecker|wowrack)'
-		)));
-		if (empty($hostile) == false) {
-			if (preg_match(sprintf('#%s#i', $hostile), $_SERVER['REMOTE_HOST']) == 1) {
-				$status = $status + 16;
-			}
-		}
-	}
 	if (empty($_SERVER['REQUEST_METHOD']) == false) {
 		$hostile = implode('|', apply_filters('verboten_request_methods', array(
 			'^(connect|debug|move|trace|track)'
 		)));
 		if (empty($hostile) == false) {
 			if (preg_match(sprintf('#%s#i', $hostile), $_SERVER['REQUEST_METHOD']) == 1) {
-				$status = $status + 32;
+				$status = $status + 16;
 			}
 		}
 	}
@@ -164,6 +154,17 @@ function verboten() {
 		header('Connection: Close');
 		if (file_exists(__DIR__ . '/403.php') == true) {
 			load_plugin_textdomain('verboten', false, basename(__DIR__) . '/lang/');
+			$atts = array(
+				'locale' => get_locale(),
+				'charset' => get_option('blog_charset'),
+				'title' => __('403 Forbidden', 'verboten'),
+				'heading' => __('Forbidden', 'verboten'),
+				'message' => __('Your request looks suspicious and has been denied by a security policy configured by the website administrator.', 'verboten'),
+				'uri' => sprintf('%s://%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']),
+				'ip' => isset($_SERVER['REMOTE_ADDR']) == true ? $_SERVER['REMOTE_ADDR'] : null,
+				'time' => date_i18n('YmdHis', time() + (get_option('gmt_offset') * HOUR_IN_SECONDS)),
+				'status' => $status
+			);
 			include __DIR__ . '/403.php';
 		}
 		do_action('verboten_debug', $status);
