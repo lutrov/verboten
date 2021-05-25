@@ -33,7 +33,7 @@ add_action('plugins_loaded', 'verboten', 1, 0);
 function verboten() {
 	$status = 0;
 	if (empty($_SERVER['QUERY_STRING']) == false) {
-		$hostile = implode('|', apply_filters('verboten_query_strings', array(
+		$hostile = apply_filters('verboten_query_strings', array(
 			'([a-z0-9]{2000,})',
 			'(/|%2f)(:|%3a)(/|%2f)',
 			'(/|%2f)(\*|%2a)(\*|%2a)(/|%2f)',
@@ -71,15 +71,18 @@ function verboten() {
 			'((\+|%2b)(concat|delete|get|select|union)(\+|%2b))',
 			'(union)(.*)(select)(.*)(\(|%28)',
 			'(concat)(.*)(\(|%28)'
-		)));
+		));
 		if (empty($hostile) == false) {
-			if (preg_match(sprintf('#%s#i', $hostile), $_SERVER['QUERY_STRING']) == 1) {
-				$status = $status + 1;
+			foreach ($hostile as $garbage) {
+				if (preg_match(sprintf('#%s#i', $garbage), $_SERVER['QUERY_STRING']) == 1) {
+					$status = $status + 1;
+					break;
+				}
 			}
 		}
 	}
 	if (empty($_SERVER['REQUEST_URI']) == false) {
-		$hostile = implode('|', apply_filters('verboten_request_uris', array(
+		$hostile = apply_filters('verboten_request_uris', array(
 			'([a-z0-9]{2000,})',
 			'(=?\\(\'|%27\)/?)(\.)',
 			'(\^|`|<|>|%|\\|\{|\}|\|)',
@@ -106,45 +109,57 @@ function verboten() {
 			'(\.)(7z|ab4|afm|aspx?|bash|ba?k?|bz2|cfg|cfml?|cgi|ctl|dat|db|dll|eml|et2|exe|fec|fla|hg|inc|ini|inv|jsp|log|lqd|mbf|mdb|mmw|mny|old|one|out|passwd|pdb|pl|psd|pst|ptdb|pwd|py|qbb|qdf|rar|rdf|sdb|sql|sh|soa|swf|swl|swp|stx|tar|tax|tgz|tls|tmd|wow|zlib)$',
 			'(base64_(en|de)code|benchmark|child_terminate|curl_exec|e?chr|eval|function|fwrite|(f|p)open|html|leak|passthru|p?fsockopen|phpinfo|posix_(kill|mkfifo|setpgid|setsid|setuid)|proc_(close|get_status|nice|open|terminate)|(shell_)?exec|system)(.*)(\()(.*)(\))',
 			'(/)(^$|00.temp00|0day|3xp|70bex?|admin_events|bkht|(php|web)?shell|configbak|curltest|db|dompdf|filenetworks|hmei7|index\.php/index\.php/index|jahat|kcrew|keywordspy|mobiquo|mysql|nessus|php-?info|racrew|sql|vuln|webconfig|(wp-)?conf(ig)?(uration)?|xertive)(\.php)'
-		)));
+		));
 		if (empty($hostile) == false) {
-			if (preg_match(sprintf('#%s#i', $hostile), $_SERVER['REQUEST_URI']) == 1) {
-				$status = $status + 2;
+			foreach ($hostile as $garbage) {
+				if (preg_match(sprintf('#%s#i', $garbage), $_SERVER['REQUEST_URI']) == 1) {
+					$status = $status + 2;
+					break;
+				}
 			}
 		}
 	}
 	if (empty($_SERVER['HTTP_USER_AGENT']) == false) {
-		$hostile = implode('|', apply_filters('verboten_user_agents', array(
+		$hostile = apply_filters('verboten_user_agents', array(
 			'([a-z0-9]{2000,})',
 			'(&lt;|%0a|%0d|%27|%3c|%3e|%00|0x00)',
 			'((c99|php|web)shell|remoteview|site((.){0,2})copier)',
 			'(base64_decode|bin/bash|disconnect|eval|lwp-download|unserialize|\\\x22)',
 			'(360Spider|acapbot|acoonbot|ahrefs|alexibot|asterias|attackbot|backdorbot|becomebot|binlar|blackwidow|blekkobot|blexbot|blowfish|bullseye|bunnys|butterfly|careerbot|casper|checkpriv|cheesebot|cherrypick|chinaclaw|choppy|clshttp|cmsworld|copernic|copyrightcheck|cosmos|crescent|cy_cho|datacha|demon|diavol|discobot|dittospyder|dotbot|dotnetdotcom|dumbot|emailcollector|emailsiphon|emailwolf|exabot|extract|eyenetie|feedfinder|flaming|flashget|flicky|foobot|g00g1e|getright|gigabot|go-ahead-got|gozilla|grabnet|grafula|harvest|heritrix|httrack|icarus6j|jetbot|jetcar|jikespider|kmccrew|leechftp|libweb|linkextractor|linkscan|linkwalker|loader|masscan|miner|majestic|mechanize|mj12bot|morfeus|moveoverbot|netmechanic|netspider|nicerspro|nikto|ninja|nutch|octopus|pagegrabber|planetwork|postrank|proximic|purebot|pycurl|python|queryn|queryseeker|radian6|radiation|realdownload|rogerbot|scooter|seekerspider|semalt|siclab|sindice|sistrix|sitebot|siteexplorer|sitesnagger|skygrid|smartdownload|snoopy|sosospider|spankbot|spbot|sqlmap|stackrambler|stripper|sucker|surftbot|sux0r|suzukacz|suzuran|takeout|teleport|telesoft|true_robots|turingos|turnit|vampire|vikspider|voideye|webleacher|webreaper|webstripper|webvac|webviewer|webwhacker|winhttp|wwwoffle|woxbot|xaldon|xxxyy|yamanalab|yioopbot|youda|zeus|zmeu|zune|zyborg)'
-		)));
+		));
 		if (empty($hostile) == false) {
-			if (preg_match(sprintf('#%s#i', $hostile), $_SERVER['HTTP_USER_AGENT']) == 1) {
-				$status = $status + 4;
+			foreach ($hostile as $garbage) {
+				if (preg_match(sprintf('#%s#i', $garbage), $_SERVER['HTTP_USER_AGENT']) == 1) {
+					$status = $status + 4;
+					break;
+				}
 			}
 		}
 	}
 	if (empty($_SERVER['HTTP_REFERER']) == false) {
-		$hostile = implode('|', apply_filters('verboten_referrers', array(
+		$hostile = apply_filters('verboten_referrers', array(
 			'(semalt.com|todaperfeita)',
 			'(ambien|blue\spill|cocaine|ejaculat|erectile|erections|hoodia|huronriveracres|impotence|levitra|libido|lipitor|phentermin|pro[sz]ac|sandyauer|tramadol|troyhamby|ultram|unicauca|valium|viagra|vicodin|xanax|ypxaieo)'
-		)));
+		));
 		if (empty($hostile) == false) {
-			if (preg_match(sprintf('#%s#i', $hostile), $_SERVER['HTTP_REFERER']) == 1) {
-				$status = $status + 8;
+			foreach ($hostile as $garbage) {
+				if (preg_match(sprintf('#%s#i', $garbage), $_SERVER['HTTP_REFERER']) == 1) {
+					$status = $status + 8;
+					break;
+				}
 			}
 		}
 	}
 	if (empty($_SERVER['REQUEST_METHOD']) == false) {
-		$hostile = implode('|', apply_filters('verboten_request_methods', array(
+		$hostile = apply_filters('verboten_request_methods', array(
 			'^(connect|debug|move|trace|track)'
-		)));
+		));
 		if (empty($hostile) == false) {
-			if (preg_match(sprintf('#%s#i', $hostile), $_SERVER['REQUEST_METHOD']) == 1) {
-				$status = $status + 16;
+			foreach ($hostile as $garbage) {
+				if (preg_match(sprintf('#%s#i', $garbage), $_SERVER['REQUEST_METHOD']) == 1) {
+					$status = $status + 16;
+					break;
+				}
 			}
 		}
 	}
