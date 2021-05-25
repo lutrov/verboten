@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="<?php echo get_locale(); ?>">
+<html lang="<?php echo $atts['locale']; ?>">
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="</php echo $atts['charset']; ?>">
 		<meta name="viewport" content="width=device-width">
 		<meta name="robots" content="noindex, nofollow">
-		<title>403 Forbidden</title>
+		<title><?php echo $atts['title']; ?></title>
 		<style type="text/css">
 			body {
 				margin: 0;
@@ -31,10 +31,10 @@
 	</head>
 	<body>
 		<main>
-			<h1><?php echo __('Forbidden', 'verboten'); ?></h1>
-			<p><?php echo __('Your request looks suspicious and has been denied by a security policy configured by the website administrator.', 'verboten'); ?></p>
-			<p><?php echo sprintf('%s://%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']); ?></p>
-			<p><?php echo sprintf('%s', $_SERVER['REMOTE_ADDR']); ?><br><?php echo sprintf('%s', date_i18n('YmdHis', time() + (get_option('gmt_offset') * HOUR_IN_SECONDS))); ?><br><?php echo $status; ?></p>
+			<h1><?php echo $atts['heading']; ?></h1>
+			<p><?php echo $atts['message']; ?></p>
+			<p><?php echo $atts['uri']; ?></p>
+			<p><?php echo $atts['ip']; ?><br><?php echo $atts['time']; ?><br><?php echo $atts['status']; ?></p>
 		</main>
 	</body>
 </html>
