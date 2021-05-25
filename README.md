@@ -12,18 +12,18 @@ Verboten has no configuration or settings screen because configuration isn't nec
 
 This plugin provides an API to to customise the default values for hostile request uris, query strings, user agents and referrers. See these examples:
 
-	// ---- Change the Verboten plugin hostile request uris array.
-	add_filter('verboten_request_uris', 'custom_verboten_request_uris_filter');
-	function custom_verboten_request_uris_filter($array) {
+	// ---- Change the Verboten plugin hostile query strings array.
+	add_filter('verboten_query_strings', 'custom_verboten_query_strings_filter');
+	function custom_verboten_query_strings_filter($array) {
 		if (empty($_REQUEST['wc-api']) == false) {
 			return array(); // Don't trigger error for Woocommerce API transactions
 		}
 		return $array;
 	}
 
-	// ---- Change the Verboten plugin hostile query strings array.
-	add_filter('verboten_query_strings', 'custom_verboten_query_strings_filter');
-	function custom_verboten_query_strings_filter($array) {
+	// ---- Change the Verboten plugin hostile request uris array.
+	add_filter('verboten_request_uris', 'custom_verboten_request_uris_filter');
+	function custom_verboten_request_uris_filter($array) {
 		if (empty($_REQUEST['wc-api']) == false) {
 			return array(); // Don't trigger error for Woocommerce API transactions
 		}
