@@ -10,7 +10,7 @@ This project is licensed under the [GNU GPL](http://www.gnu.org/licenses/old-lic
 
 Verboten has no configuration or settings screen because configuration isn't necessary. It uses blacklist rules based on [7G Firewall](https://perishablepress.com/7g-firewall/) by Jeff Starr.
 
-This plugin provides an API to to customise the default values for hostile request uris, query strings, user agents and referrers. See these examples:
+This plugin provides an API to to customise the default values for hostile query strings, request uris, user agents, referrers and request methods. See these examples:
 
 	// ---- Change the Verboten plugin hostile query strings array.
 	add_filter('verboten_query_strings', 'custom_verboten_query_strings_filter');
@@ -47,7 +47,6 @@ This plugin provides an API to to customise the default values for hostile reque
 	function custom_verboten_request_methods_filter($array) {
 		return $array;
 	}
-
 
 You could also implement an access denial logging mechanism. See these examples:
 
