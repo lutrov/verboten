@@ -3,7 +3,7 @@
 /*
 Plugin Name: Verboten
 Plugin URI: https://github.com/lutrov/verboten
-Version: 5.0
+Version: 5.1
 Description: A lightning fast firewall that automatically protects your Wordpress site against malicious URL requests. No configuration necessary. Uses blacklist rules based on <a href="https://perishablepress.com/7g-firewall/" target="_blank">7G Firewall</a> by Jeff Starr. Why this plugin name? Verboten means "forbidden" in German.
 Author: Ivan Lutrov
 Author URI: http://lutrov.com/
@@ -131,7 +131,7 @@ function verboten_request_uris($status) {
 		$hostile = apply_filters('verboten_request_uris', array(
 			'([a-z0-9]{2000,})',
 			'(=?\\(\'|%27\)/?)(\.)',
-			'(\^|`|<|>|%|\\|\{|\}|\|)',
+			'(\^|`|<|>|\\|\{|\}|\|)',
 			'(/)(\*|\"|\'|\.|,|&|&amp;?)/?$',
 			'(\.)(php)(\()?([0-9]+)(\))?(/)?$',
 			'(/)(vbulletin|boards|vbforum)(/)?',
