@@ -21,7 +21,7 @@
 				color: black;
 			}
 			h1 {
-				font: normal bold 80px/1.1 monospace;
+				font: normal bold 60px/1.1 monospace;
 			}
 			p {
 				font: normal bold 20px/1.1 monospace;
@@ -34,7 +34,7 @@
 			<h1><?php echo $atts['heading']; ?></h1>
 			<p><?php echo $atts['message']; ?></p>
 			<p><?php echo $atts['uri']; ?></p>
-			<p><?php echo $atts['ip']; ?><br><?php echo $atts['time']; ?><br><?php echo $atts['status']; ?></p>
+			<p><?php echo $atts['status']; ?><br><?php echo $atts['time']; ?><br><?php echo $atts['ip']; ?></p>
 		</main>
 	</body>
 </html>
