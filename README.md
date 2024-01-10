@@ -10,7 +10,7 @@ This project is licensed under the [GNU GPL](http://www.gnu.org/licenses/old-lic
 
 Verboten has no configuration or settings screen because configuration isn't necessary. It uses blacklist rules based on [7G Firewall](https://perishablepress.com/7g-firewall/) by Jeff Starr.
 
-This plugin provides an API to to customise the default values for hostile query strings, request uris, user agents, referrers and request methods. See these examples:
+This plugin provides an API to customise the default values for hostile query strings, request uris, user agents, referrers and request methods. See these examples:
 
 	// ---- Change the Verboten plugin hostile query strings array.
 	add_filter('verboten_query_strings', 'custom_verboten_query_strings_filter');
@@ -42,6 +42,12 @@ This plugin provides an API to to customise the default values for hostile query
 		return $array;
 	}
 
+	// ---- Change the Verboten plugin hostile remote hosts array.
+	add_filter('verboten_remote_hosts', 'custom_verboten_remote_hosts_filter');
+	function custom_verboten_remote_hosts_filter($array) {
+		return $array;
+	}
+
 	// ---- Change the Verboten plugin hostile request methods array.
 	add_filter('verboten_request_methods', 'custom_verboten_request_methods_filter');
 	function custom_verboten_request_methods_filter($array) {
@@ -51,11 +57,11 @@ This plugin provides an API to to customise the default values for hostile query
 You could also implement an access denial logging mechanism. See these examples:
 
 	// ---- Log debug info for Verboten access errors.
-	// ---- Status can be (1) QUERY_STRING (2) REQUEST_URI (4) HTTP_USER_AGENT (8) HTTP_REFERER (16) REQUEST_METHOD
+	// ---- Status can be (1) QUERY_STRING (2) REQUEST_URI (4) HTTP_USER_AGENT (8) HTTP_REFERER (16) REMOTE_HOST (32) REQUEST_METHOD
 	add_action('verboten_debug', 'custom_verboten_debug_action');
 	function custom_verboten_debug_action($status) {
 		$verboten = array('status' => $status, 'data' => array());
-		foreach (array('QUERY_STRING', 'REQUEST_URI', 'HTTP_USER_AGENT', 'HTTP_REFERER', 'REMOTE_ADDR', 'REQUEST_METHOD') as $key) {
+		foreach (array('QUERY_STRING', 'REQUEST_URI', 'HTTP_USER_AGENT', 'HTTP_REFERER', 'REMOTE_ADDR', 'REMOTE_HOST', 'REQUEST_METHOD') as $key) {
 			if (isset($_SERVER[$key]) == true) {
 				$verboten['data'][$key] = $_SERVER[$key];
 			}
