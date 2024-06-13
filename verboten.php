@@ -3,7 +3,7 @@
 /*
 Plugin Name: Verboten
 Plugin URI: https://github.com/lutrov/verboten
-Version: 6.0
+Version: 6.1
 Description: A lightning fast firewall that automatically protects your Wordpress site against malicious URL requests. No configuration necessary. Uses blacklist rules based on <a href="https://perishablepress.com/7g-firewall/" target="_blank">7G Firewall</a> by Jeff Starr. Why this plugin name? Verboten means "forbidden" in German.
 Author: Ivan Lutrov
 Author URI: http://lutrov.com/
@@ -40,7 +40,7 @@ function verboten() {
 		case in_array($pagenow, array('wp-login.php')) == true:
 			// Permitted login page variables
 			$allowed = apply_filters('verboten_login_query_string_keys_allowed', array(
-				'action', 'redirect_to', 'page', 'reauth', 'wp_lang', '_wpnonce'
+				'action', 'redirect_to', 'page', 'reauth', 'wp_lang', '_wpnonce', 'captcha'
 			));
 			parse_str($_SERVER['QUERY_STRING'], $args);
 			foreach ($args as $key => $value) {
@@ -279,7 +279,7 @@ function verboten_access_forbidden($status) {
 			'uri' => sprintf('%s://%s%s', $_SERVER['REQUEST_SCHEME'], $_SERVER['HTTP_HOST'], $_SERVER['REQUEST_URI']),
 			'ip' => isset($_SERVER['REMOTE_ADDR']) == true ? $_SERVER['REMOTE_ADDR'] : null,
 			'time' => date_i18n('Y-m-d H:i:s', time() + (get_option('gmt_offset') * HOUR_IN_SECONDS)),
-			'status' => $status
+			'status' => sprintf('(%s)', $status)
 		);
 		include __DIR__ . '/403.php';
 	}
